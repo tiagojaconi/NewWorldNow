@@ -111,6 +111,67 @@ class Jogador{
 	
 }
 
+class Personagem:Jogador{
+
+	protected string nomePersonagem;
+	protected float vidaPersonagem;
+	protected float forcaPersonagem;
+	protected float manaPersonagem;
+	protected int levelPersonagem;
+
+	public Personagem(string nome){
+		nomePersonagem = nome;
+		vidaPersonagem = 100;
+		forcaPersonagem = 0;
+		manaPersonagem = 0;
+		levelPersonagem = 1;
+	}
+
+	public void SetNomePersonagem(string nome){
+		nomePersonagem = nome;
+	}
+	public string GetNomePersonagem(){
+		return nomePersonagem;
+	}
+	public void SetVida(float vida){
+		if((vida>0)&&(vida<200)){
+			vidaPersonagem = vida;
+		}
+	}
+	public float GetVida(){
+		return vidaPersonagem;
+	}
+	public void SetForca(float forca){
+		if((forca>0)&&(forca<200)){
+			forcaPersonagem = forca;
+		}
+	}
+	public float GetForca(){
+		return forcaPersonagem;
+	}
+	public void SetMana(float mana){
+		if((mana>0)&&(mana<100)){
+			manaPersonagem = mana;
+		}
+	}
+	public float GetMana(){
+		return manaPersonagem;
+	}
+	public void SetLevel(int level){
+		//Incrementa level no personagem.
+		if (level>0){
+			if ((level+levelPersonagem)<100){
+				levelPersonagem = levelPersonagem +level;
+			}else{
+				levelPersonagem = 99;
+			}
+		}
+	}
+	public int GetLevel(){
+		return levelPersonagem;
+	}
+}
+
 class MainClass {
   public static void Main (string[] args) {
     
