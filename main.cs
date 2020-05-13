@@ -12,9 +12,9 @@ class Jogador{
 		contJogador++;
 		nomeJogador = ("Jogador "+contJogador);
 		senhaJogador = " ";
-		idadeJogador = 15;
+		idadeJogador = 16;
 		alturaJogador = 1.4f;
-		pesoJogador = 40;
+		pesoJogador = 30;
 	} 
 	public Jogador(string nome, string senha, int idade, float altura, float peso){
 		contJogador++;
@@ -61,8 +61,52 @@ class Jogador{
 	public string GetNome(){
 		return nomeJogador;
 	}
-	public SetSenha (string senha){
-		
+	public void SetSenha (string senha){
+		if (senha.Length <8){
+			senhaJogador = senha;
+		}else{
+			Console.WriteLine ("Senha Inválida!!!");
+		}
+	}
+	public bool GetSenha(string senha){
+		//Este apenas devolve verdadeiro para verificação se a senha esta correta ou não.
+		bool resposta = false;
+		if (senhaJogador == senha){
+			resposta = true;
+		}else{
+			resposta = false;
+		}
+		return resposta;
+	}
+	public void SetIdade(int idade){
+		if ((idade>16)&&(idade<80)){
+			idadeJogador = idade;
+		}else{
+			Console.WriteLine ("Idade Inválida, ou não autorizada a jogar!!!");
+		}
+	}
+	public int GetIdade(){
+		return idadeJogador;
+	}
+	public void SetAltura(float altura){
+		if ((altura>1.0f)&&(altura<3.0f)){
+			alturaJogador = altura;
+		}else{
+			Console.WriteLine("Altura Inválida,, ou não aceito para o jogo!!!!!!");
+		}
+	}
+	public float GetAltura(){
+		return alturaJogador;
+	}
+	public void SetPeso(float peso){
+		if ((peso>30)&&(peso<160)){
+			pesoJogador = peso;
+		}else{
+			Console.WriteLine("Peso inválido, ou não aceito para o jogo!!!");
+		}
+	}
+	public float GetPeso(){
+		return pesoJogador;
 	}
 	
 }
