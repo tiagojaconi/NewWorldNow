@@ -1,4 +1,6 @@
 using System;
+using System.IO;
+using System.Text;
 
 class Jogador{
 	private string nomeJogador;
@@ -116,14 +118,18 @@ class Personagem:Jogador{
 	protected string nomePersonagem;
 	protected float vidaPersonagem;
 	protected float forcaPersonagem;
-	protected float manaPersonagem;
+	protected float magiaPersonagem;
+	protected float inteligenciaPersonagem;
 	protected int levelPersonagem;
+
+	public Personagem() {}
 
 	public Personagem(string nome){
 		nomePersonagem = nome;
 		vidaPersonagem = 100;
 		forcaPersonagem = 0;
-		manaPersonagem = 0;
+		magiaPersonagem = 0;
+		inteligenciaPersonagem = 0;
 		levelPersonagem = 1;
 	}
 
@@ -149,13 +155,21 @@ class Personagem:Jogador{
 	public float GetForca(){
 		return forcaPersonagem;
 	}
-	public void SetMana(float mana){
-		if((mana>0)&&(mana<100)){
-			manaPersonagem = mana;
+	public void SetMagia(float magia){
+		if((magia>0)&&(magia<100)){
+			magiaPersonagem = magia;
 		}
 	}
-	public float GetMana(){
-		return manaPersonagem;
+	public float GetMagia(){
+		return magiaPersonagem;
+	}
+	public void SetInteligencia(float inteligencia){
+		if((inteligencia>0)&&(inteligencia<100)){
+			inteligenciaPersonagem = inteligencia;
+		}
+	}
+	public float GetInteligencia(){
+		return inteligenciaPersonagem;
 	}
 	public void SetLevel(int level){
 		//Incrementa level no personagem.
@@ -171,14 +185,132 @@ class Personagem:Jogador{
 		return levelPersonagem;
 	}
 }
+class Classe:Personagem{
+
+	private string nomeClasse;
+	
+	public Classe(int classe, int funcao){
+
+		switch(classe){
+
+			case 1: //Humano
+			{
+				switch(funcao){
+					case 1: //cavaleiro
+					{
+						forcaPersonagem = 95;
+						magiaPersonagem = 90;
+						inteligenciaPersonagem = 98;
+						vidaPersonagem = 100;
+						break;
+					}
+					case 2: //bandido
+					{
+						forcaPersonagem = 95;
+						magiaPersonagem = 95;
+						inteligenciaPersonagem = 110;
+						vidaPersonagem = 95;
+						break;
+					}
+					default: {break;}
+				}
+				break;
+			}
+			case 2: //Anjin
+			{
+				switch(funcao){
+					case 1: //Feiticeiro
+					{
+						forcaPersonagem = 45;
+						magiaPersonagem = 100;
+						inteligenciaPersonagem = 200;
+						vidaPersonagem = 120;
+						break;
+					}
+					case 2: //Invocador
+					{
+						forcaPersonagem = 40;
+						magiaPersonagem = 150;
+						inteligenciaPersonagem = 180;
+						vidaPersonagem = 140;
+						break;
+					}
+					default: {break;}
+				}
+				break;
+			}
+			default: {break;}
+		}
+	}
+}
 
 class MainClass {
+
   public static void Main (string[] args) {
-    
-		string nome;
-		Jogador jogador1 = new Jogador();
+  
+	int menu = 1, idade=0, classe=0, funcao=0;
+	float peso, altura;
+	string nome, senha, personagem;
 
 		Console.WriteLine ("New World Now - Game");
+		while(menu!=0){
+
+			Console.WriteLine ("Escolha o que quer fazer:");
+			Console.WriteLine ("1- Novo Jogo");
+			Console.WriteLine ("2- Carregar Jogo");
+			Console.WriteLine ("0- Fechar Jogo");
+
+			menu = Convert.ToInt32(Console.ReadLine());
+
+			if(menu == 1){
+				
+				FileStream dados1 = new FileStream("jogador1.txt", FileMode.Open, FileAccess.Write);
+				StreamWriter dados1escrever = new StreamWriter(dados1,Encoding.UTF8);
+
+				Console.WriteLine("Informe o seu nome:");
+				nome = Console.ReadLine();
+				Console.WriteLine("Informe o sua senha:");
+				senha = Console.ReadLine();
+				Console.WriteLine("Informe o sua idade:");
+				idade = Convert.ToInt32(Console.ReadLine());
+				Console.WriteLine("Informe o seu peso:");
+				peso = Convert.ToSingle(Console.ReadLine());
+				Console.WriteLine("Informe o sua Altura:");
+				altura = Convert.ToSingle(Console.ReadLine());
+				Console.WriteLine("Informe o nome do seu personagem:");
+				personagem = Console.ReadLine();
+				Console.WriteLine("Informe a Classe que deseja: 1- Humano ou 2- Anjin");
+				classe = Convert.ToInt32(Console.ReadLine());
+				if (classe == 1){
+					Console.WriteLine("Informe a Função que deseja: 1- Guerreiro ou 2- Bandido");
+					funcao = Convert.ToInt32(Console.ReadLine());
+				}else if (classe == 2){
+					Console.WriteLine("Informe a Função que deseja: 1- Feiticeiro ou 2- Invocador");
+					funcao = Convert.ToInt32(Console.ReadLine());
+				}
+				Classe jogador1 = new Classe(classe, funcao);
+
+				while(jogador1.SetNome(nome)==false){
+				Console.WriteLine("Insira outro nome: ");	
+					nome = Console.ReadLine();
+				}
+				dados1escrever.WriteLine(nome);;
+				jogador1.SetSenha(senha);
+				dados1escrever.WriteLine(senha);
+				jogador1.SetIdade(idade);
+				dados1escrever.WriteLine(idade);
+				jogador1.SetPeso(peso);
+				dados1escrever.WriteLine(peso);
+				jogador1.SetAltura(altura);
+				dados1escrever.WriteLine(altura);
+				jogador1.SetNomePersonagem(personagem);
+				dados1escrever.WriteLine(personagem);
+				
+				dados1escrever.Close();
+				dados1.Close();
+			}
+		}
+	
 
 		/* ***Para alterar o Nome do Jogador***
 		Console.WriteLine("Insira o novo nome: ");
@@ -190,3 +322,5 @@ class MainClass {
 		}******/
   }
 }
+
+	
